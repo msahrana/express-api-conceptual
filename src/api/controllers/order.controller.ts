@@ -26,3 +26,54 @@ export const getAllOrders = async (req: Request, res: Response) => {
         data: allOrders,
     });
 };
+
+export const getSingleOrder = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const singleOrder = await orderService.getSingleOrder(id as string);
+
+    if (!singleOrder) {
+        return res.status(404).json({
+            success: false,
+            message: 'Order not found',
+        });
+    }
+
+    return sendResponse(res, {
+        message: 'Single Order received successfully',
+        data: singleOrder,
+    });
+};
+
+export const updateOrder = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const user = req.user;
+    const payload = req.body;
+
+    if (!user) {
+        return sendResponse(res, {
+            message: 'Unauthorized',
+        });
+    }
+
+    if (!id) {
+        return sendResponse(res, {
+            message: 'Order ID is required',
+        });
+    }
+
+    const updateOneOrder = await orderService.updateSingleOrder(
+        payload,
+        id as string,
+    );
+
+    if (!updateOneOrder) {
+        return sendResponse(res, {
+            message: 'Order not found',
+        });
+    }
+
+    return sendResponse(res, {
+        message: 'Single Order updated successfully',
+        data: updateOneOrder,
+    });
+};
