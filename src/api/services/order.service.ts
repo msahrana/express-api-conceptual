@@ -15,6 +15,13 @@ class OrderService {
         RETURNING *
         `;
     }
+
+    async getAllOrders(){
+        const result = await sql`
+        SELECT * FROM orders
+        `
+        return result
+    }
 }
 
 export default new OrderService()
