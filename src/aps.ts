@@ -6,6 +6,7 @@ import express, {
 import { logger } from './middleware/logger';
 import { globalErrorHandler } from './middleware/globalErrorHandler';
 import authRoutes from './api/routes/auth.route';
+import orderRoutes from './api/routes/order.route';
 import cookieParser from 'cookie-parser';
 
 const app: Application = express();
@@ -19,6 +20,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/auth', authRoutes);
+app.use('/orders', orderRoutes);
 app.use(globalErrorHandler);
 
 export default app;
