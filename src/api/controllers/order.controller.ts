@@ -13,7 +13,7 @@ export const createOrder = async (req: Request, res: Response) => {
     });
 
     return sendResponse(res, {
-        message: 'Order created successfully',
+        message: 'New Order created successfully',
         data: newOrder,
     });
 };
@@ -23,7 +23,7 @@ export const getAllOrders = async (req: Request, res: Response) => {
     const allOrders = await orderService.getAllOrders();
 
     return sendResponse(res, {
-        message: 'Orders retrieved successfully',
+        message: 'All Orders retrieved successfully',
         data: allOrders,
     });
 };
