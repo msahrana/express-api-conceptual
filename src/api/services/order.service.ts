@@ -3,6 +3,7 @@ import type { OOrder } from '../../types';
 import authService from './auth.service';
 
 class OrderService {
+    // Create Single Order
     async createOrder({ customer_id, quantity, food, price }: OOrder) {
         const user = await authService.getUserById(String(customer_id));
         if (!user) {
@@ -16,6 +17,7 @@ class OrderService {
         `;
     }
 
+    // Get All Orders
     async getAllOrders() {
         const result = await sql`
         SELECT * FROM orders
@@ -23,6 +25,7 @@ class OrderService {
         return result;
     }
 
+    // Get Single Order
     async getSingleOrder(id: string) {
         const result = await sql`
         SELECT * FROM orders WHERE id = ${id}
@@ -30,6 +33,7 @@ class OrderService {
         return result[0] || null;
     }
 
+    // Update Single Order
     async updateSingleOrder(payload: any, id: string) {
         const result = await sql`
         UPDATE orders
@@ -43,6 +47,26 @@ class OrderService {
         RETURNING *
     `;
         return result[0] || null;
+    }
+
+    // Delete Single Order
+    async deleteSingleOrder(id: string) {
+        const result = await sql`
+        DELETE FROM orders 
+        WHERE id = ${id}
+        RETURNING *
+        `;
+        [id];
+        return result[0] || null;
+    }
+
+    // Delete All Orders
+    async deleteAllOrders() {
+        const result = await sql`
+        DELETE FROM orders 
+        RETURNING *
+        `;
+        return result;
     }
 }
 
