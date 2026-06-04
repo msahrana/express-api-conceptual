@@ -101,7 +101,38 @@ export const getCurrentUser = async (req: Request, res: Response) => {
 
     sendResponse(
         res,
-        { message: 'User fetched successfully', data:user },
+        { message: 'User fetched successfully', data: user },
+        200,
+    );
+};
+
+// Update Single User
+export const updateUser = async (req: Request, res: Response) => {
+    const userId = req.user?.id;
+    console.log(userId);
+    if (!userId) {
+        return sendResponse(res, { message: 'Unauthorized', error: true }, 401);
+    }
+
+    const { name, email, age, password } = req.body;
+
+    const updated = await authService.updateUser(userId, {
+        name,
+        email,
+        age,
+        password,
+    });
+    if (!updated) {
+        return sendResponse(
+            res,
+            { message: 'Failed to update user', error: true },
+            400,
+        );
+    }
+
+    sendResponse(
+        res,
+        { message: 'User updated successfully', data: updated },
         200,
     );
 };
