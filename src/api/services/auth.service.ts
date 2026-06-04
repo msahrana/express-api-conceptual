@@ -76,6 +76,19 @@ class AuthService {
         `;
         return result[0];
     }
+
+    // Delete Single User
+    async deleteAccount(userId: string) {
+        try {
+            await sql`
+        DELETE FROM users
+        WHERE id = ${userId}
+      `;
+            return true;
+        } catch {
+            return false;
+        }
+    }
 }
 
 export default new AuthService();

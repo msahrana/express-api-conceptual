@@ -136,3 +136,28 @@ export const updateUser = async (req: Request, res: Response) => {
         200,
     );
 };
+
+// Delete Single User
+export const deleteUser = async (req: Request, res: Response) => {
+    const id = req.user?.id;
+    if (!id) {
+        return sendResponse(res, { message: 'Unauthorized', error: true }, 401);
+    }
+
+    const deleted = await authService.deleteAccount(id);
+    if (!deleted) {
+        return sendResponse(
+            res,
+            { message: 'Failed to delete account', error: true },
+            400,
+        );
+    }
+
+    res.clearCookie('refreshToken', {
+        secure: false,
+        httpOnly: true,
+        sameSite: 'lax',
+    });
+
+    sendResponse(res, { message: 'One Account deleted successfully' }, 200);
+};

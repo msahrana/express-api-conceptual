@@ -26,12 +26,16 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
 
         const user = await authService.getUserById(payload.id);
         if (!user) {
-            return sendResponse(res, { message: 'User not fount!' }, 404);
+            return sendResponse(
+                res,
+                { message: 'User not fount!', error: true },
+                404,
+            );
         }
 
         req.user = user;
 
-        return next();
+        next();
     } catch (error) {
         next(error);
     }

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+    deleteUser,
     getCurrentUser,
     login,
     refresh,
@@ -15,6 +16,8 @@ router.post('/login', login);
 router.get('/me', getCurrentUser);
 router.get('/refresh', refresh);
 router.put('/update/:id', auth, updateUser);
-// router.delete('/delete/:id');
+router.delete('/delete/:id', auth, deleteUser);
+
+router.post('/logout'); // NB: [Does not working]
 
 export default router;
