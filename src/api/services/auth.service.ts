@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import type { OUser, TUser } from '../../types';
 
 class AuthService {
+    // Signup Single User
     async createUserIntoDB(user: OUser & { password: string }) {
         const { name, email, password, age, role } = user;
 
@@ -16,6 +17,7 @@ class AuthService {
         return result[0];
     }
 
+    // Login Single User
     async loginUserIntoDB(email: string, password: string) {
         const result = await sql`
         SELECT * FROM users WHERE email = ${email}
@@ -31,6 +33,7 @@ class AuthService {
         return isValid ? user : null;
     }
 
+    // Get Single User ById
     async getUserById(id: string) {
         const result = await sql`
         SELECT id, name, email, age, role FROM users WHERE id=${id}

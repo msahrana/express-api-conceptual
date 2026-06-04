@@ -18,5 +18,4 @@ router.patch('/:id', auth, authorizeRoles('super_admin'), updateOrder);
 router.delete('/delete-all',auth, authorizeRoles('super_admin'), deleteAllOrder);
 router.delete('/:id', auth, authorizeRoles('super_admin'), deleteOrder);
 
-
 export default router;
