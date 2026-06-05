@@ -89,6 +89,23 @@ class AuthService {
             return false;
         }
     }
+
+    // Get All Users
+    async getAllUsers() {
+        const result = await sql`
+        SELECT * FROM users
+        `;
+        return result;
+    }
+
+    // Delete All Users
+    async deleteAllUsers() {
+        const result = await sql`
+        DELETE FROM users 
+        RETURNING *
+        `;
+        return result;
+    }
 }
 
 export default new AuthService();

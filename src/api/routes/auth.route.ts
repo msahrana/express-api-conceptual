@@ -1,13 +1,16 @@
 import { Router } from 'express';
 import {
+    deleteAllUser,
     deleteUser,
+    getAllUser,
     getCurrentUser,
     login,
+    logout,
     refresh,
     signup,
     updateUser,
 } from '../controllers/auth.controller';
-import { auth } from '../../middleware/auth';
+import { auth, authorizeRoles } from '../../middleware/auth';
 
 const router = Router();
 
@@ -18,6 +21,9 @@ router.get('/refresh', refresh);
 router.put('/update/:id', auth, updateUser);
 router.delete('/delete/:id', auth, deleteUser);
 
-router.post('/logout'); // NB: [Does not working]
+router.get('/all/users', authorizeRoles('admin'), getAllUser);
+router.get('/delete/all', authorizeRoles('super_admin'), deleteAllUser);
+
+router.post('/logout', logout); // NB: [Does not working]
 
 export default router;

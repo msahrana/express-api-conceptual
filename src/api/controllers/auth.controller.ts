@@ -161,3 +161,50 @@ export const deleteUser = async (req: Request, res: Response) => {
 
     sendResponse(res, { message: 'One Account deleted successfully' }, 200);
 };
+
+// Logout Single User
+export const logout = (req: Request, res: Response) => {
+    const refreshToken = req.cookies?.refreshToken;
+
+    if (!refreshToken) {
+        return sendResponse(
+            res,
+            { message: 'No active session found', error: true },
+            400,
+        );
+    }
+
+    res.clearCookie('refreshToken', {
+        secure: false,
+        httpOnly: true,
+        sameSite: 'lax',
+    });
+
+    sendResponse(res, { message: 'Logged out successfully' }, 200);
+};
+
+// Get All Users
+export const getAllUser = async (req: Request, res: Response) => {
+    const allUsers = await authService.getAllUsers();
+
+    return sendResponse(res, {
+        message: 'All Users retrieved successfully',
+        data: allUsers,
+    });
+};
+
+// Delete All Users
+export const deleteAllUser = async (req: Request, res: Response) => {
+    const deleteResult = await authService.deleteAllUsers();
+
+    if (deleteResult.length === 0) {
+        return sendResponse(res, {
+            message: 'No User found yet here...!!!',
+        });
+    }
+
+    sendResponse(res, {
+        message: 'All Users deleted successfully!!!',
+    });
+    return deleteResult;
+};
